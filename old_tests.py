@@ -5,7 +5,10 @@ from db.models import User, Actor, Genre
 class ModelsTestCase(TestCase):
     def setUp(self) -> None:
         self.genre = Genre.objects.create(name="Action")
-        self.user = User.objects.create_user(username="testuser", password="12345")
+        self.user = User.objects.create_user(
+            username="testuser",
+            password="12345"
+        )
         self.actor = Actor.objects.create(name="John Doe")
         self.actor.genres.add(self.genre)
 
