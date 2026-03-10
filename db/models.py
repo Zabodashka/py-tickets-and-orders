@@ -51,4 +51,3 @@ class Ticket(models.Model):
     )
     row = models.PositiveIntegerField()
     seat = models.PositiveIntegerField()
-    
