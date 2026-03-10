@@ -9,17 +9,11 @@ class User(AbstractUser):
 class Genre(models.Model):
     name = models.CharField(max_length=255)
 
-    def __str__(self) -> str:
-        return self.name
-
 
 class Actor(models.Model):
     name = models.CharField(max_length=255)
     age = models.PositiveIntegerField(default=0)
     genres = models.ManyToManyField(Genre, related_name="actors")
-
-    def __str__(self) -> str:
-        return self.name
 
 
 class Movie(models.Model):
@@ -27,24 +21,25 @@ class Movie(models.Model):
     description = models.TextField()
     actors = models.ManyToManyField(Actor, related_name="movies")
 
-    def __str__(self) -> str:
-        return self.title
-
 
 class MovieSession(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="movie_sessions")
-    show_time = models.DateTimeField()
+    movie = models.ForeignKey(
+        Movie, on_delete=models.CASCADE, related_name="movie_sessions"
+    )
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
     rows = models.PositiveIntegerField()
     seats_in_row = models.PositiveIntegerField()
 
-    @property
     def capacity(self) -> int:
         return self.rows * self.seats_in_row
 
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="orders")
-    movie_session = models.ForeignKey(MovieSession, on_delete=models.CASCADE, related_name="orders")
+    movie_session = models.ForeignKey(
+        MovieSession, on_delete=models.CASCADE, related_name="orders"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
 
